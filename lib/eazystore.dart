@@ -5,9 +5,11 @@ class Eazystore extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(accentColor: Colors.lightBlueAccent),
-      home: Scaffold(
-        body: Center(
-          child: Text('Home Page'),
+      home: SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: Text('Home Page'),
+          ),
         ),
       ),
     );
