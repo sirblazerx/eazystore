@@ -1,17 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eazystore/Models/Menu.dart';
 
 class FirestoreService {
-  
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
-
-
 // Get Menu Data
+  Stream<List<Menu>> getMenu() {
+    return _db.collection('Menu').snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Menu.fromJson(doc.data())).toList());
+  }
 
-// Create Data
+// Upsert , Create if doesnt exist, update if exist
 
-// Update Data
+  var options = SetOptions(merge: true);
+
+  Future<void> setMenu(Menu menu) {
+    return _db.collection('Menu').doc(menu.MenuId).set(menu.toMap(), options);
+  }
 
 // Delete Data
 
+  Future<void> removeMenu(String MenuId) {
+    return _db.collection('Menu').doc(MenuId).delete();
+  }
 }

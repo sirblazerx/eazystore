@@ -7,7 +7,7 @@ class Menu {
   final String Desc;
   final Image Img;
 
-  Menu({this.Desc, this.MenuId, this.Name, this.Price, this.Img});
+  Menu({this.Desc, @required this.MenuId, this.Name, this.Price, this.Img});
 
   factory Menu.fromJson(Map<String, dynamic> json) {
     return Menu(
