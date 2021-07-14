@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Menu {
   final String MenuId;
@@ -11,7 +11,7 @@ class Menu {
 
   factory Menu.fromJson(Map<String, dynamic> json) {
     return Menu(
-      MenuId: json['MenuID'],
+      MenuId: json['MenuId'],
       Name: json['Name'],
       Price: json['Price'],
       Desc: json['Desc'],
