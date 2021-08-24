@@ -1,3 +1,4 @@
+import 'package:eazystore/Home/home.dart';
 import 'package:flutter/material.dart';
 
 class Eazystore extends StatelessWidget {
@@ -6,11 +7,7 @@ class Eazystore extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(accentColor: Colors.lightBlueAccent),
       home: SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: Text('Home Page'),
-          ),
-        ),
+        child: HomePage(),
       ),
     );
   }
