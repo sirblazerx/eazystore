@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 leading: Icon(Icons.store),
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => StorePage()));
+                      MaterialPageRoute(builder: (context) => StorePageList()));
                 },
               ),
               ListTile(
