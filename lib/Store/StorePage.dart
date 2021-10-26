@@ -12,7 +12,13 @@ class StorePageList extends StatelessWidget {
           centerTitle: true,
         ),
         body: Container(
-          child: Text('Anda sampei ke Page Store'),
+          child: Card(
+            child: Column(
+              children: [
+                Expanded(child: Image.asset('lib/Assets/download.png')),
+              ],
+            ),
+          ),
         ),
       ),
     );

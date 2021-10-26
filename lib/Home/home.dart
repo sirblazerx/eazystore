@@ -15,10 +15,10 @@ class HomePage extends StatelessWidget {
           title: Text('Eazystore'),
           centerTitle: true,
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.add),
+        //   onPressed: () {},
+        // ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -33,6 +33,14 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => StorePageList()));
+                },
+              ),
+              ListTile(
+                title: Text('Login'),
+                leading: Icon(Icons.store),
+                onTap: () {
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (context) => SignIn()));
                 },
               ),
               ListTile(
@@ -68,7 +76,7 @@ class HomePage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: 3,
                         // scrollDirection: Axis.horizontal,
-                        physics: NeverScrollableScrollPhysics(),
+                        // physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           DocumentSnapshot stores = snapshot.data.docs[index];
 
