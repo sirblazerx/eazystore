@@ -40,7 +40,7 @@ class _RegisterState extends State<Register> {
                     centerTitle: true,
                     backgroundColor: Colors.pinkAccent[400],
                     elevation: 0.0,
-                    title: Text('Sign Up to GWCP'),
+                    title: Text('Sign Up to the App'),
                     actions: <Widget>[],
                   ),
                   body: ListView(

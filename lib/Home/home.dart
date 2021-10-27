@@ -1,12 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eazystore/Custom/customlist.dart';
 import 'package:eazystore/Custom/loading.dart';
+import 'package:eazystore/Models/User.dart';
+import 'package:eazystore/Services/authservice.dart';
 import 'package:eazystore/Store/StorePage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserM>(context);
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,

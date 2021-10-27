@@ -1,6 +1,7 @@
 import 'package:eazystore/Home/home.dart';
 import 'package:eazystore/Models/User.dart';
 import 'package:eazystore/Services/authservice.dart';
+import 'package:eazystore/Wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,7 @@ class Eazystore extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         home: SafeArea(
-          child: HomePage(),
+          child: Wrapper(),
         ),
       ),
     );

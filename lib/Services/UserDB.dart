@@ -9,7 +9,7 @@ class DatabaseService {
   //collection ref
 
   final CollectionReference user =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('Users');
 
 // Update/Create Data to Collection
 
