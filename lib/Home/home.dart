@@ -35,19 +35,19 @@ class HomePage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => StorePageList()));
                 },
               ),
-              ListTile(
-                title: Text('Login'),
-                leading: Icon(Icons.store),
-                onTap: () {
-                  // Navigator.of(context)
-                  //     .push(MaterialPageRoute(builder: (context) => SignIn()));
-                },
-              ),
-              ListTile(
-                title: Text('Ntah la nak'),
-                leading: Icon(Icons.money),
-                onTap: () {},
-              )
+              // ListTile(
+              //   title: Text('Login'),
+              //   leading: Icon(Icons.store),
+              //   onTap: () {
+              //     // Navigator.of(context)
+              //     //     .push(MaterialPageRoute(builder: (context) => SignIn()));
+              //   },
+              // ),
+              // ListTile(
+              //   title: Text('Ntah la nak'),
+              //   leading: Icon(Icons.money),
+              //   onTap: () {},
+              // )
             ],
           ),
         ),
