@@ -12,15 +12,23 @@ class StorePageList extends StatelessWidget {
           centerTitle: true,
         ),
         body: Container(
-          child: Card(
-            child: Column(
-              children: [
-                Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
                     child: Image.asset(
-                  'lib/Assets/download.png',
-                  fit: BoxFit.fill,
-                )),
-              ],
+                      'lib/Assets/download.png',
+                      width: 300,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Text('This is a store')
+                ],
+              ),
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eazystore/Auth/sign_in.dart';
 import 'package:eazystore/Custom/customlist.dart';
 import 'package:eazystore/Custom/loading.dart';
 import 'package:eazystore/Models/User.dart';
@@ -41,14 +42,14 @@ class HomePage extends StatelessWidget {
                   },
                 ),
               ),
-              // ListTile(
-              //   title: Text('Login'),
-              //   leading: Icon(Icons.store),
-              //   onTap: () {
-              //     // Navigator.of(context)
-              //     //     .push(MaterialPageRoute(builder: (context) => SignIn()));
-              //   },
-              // ),
+              ListTile(
+                title: Text('Login'),
+                leading: Icon(Icons.login),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SignIn()));
+                },
+              ),
               // ListTile(
               //   title: Text('Ntah la nak'),
               //   leading: Icon(Icons.money),
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: 3,
                           // scrollDirection: Axis.horizontal,
-                          // physics: NeverScrollableScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             DocumentSnapshot stores = snapshot.data.docs[index];
 
