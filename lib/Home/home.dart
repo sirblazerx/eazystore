@@ -28,8 +28,10 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: [
               const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blueAccent),
-                child: Text('Side Menu'),
+                // decoration: BoxDecoration(color: Colors.white),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text('Side Menu')),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -43,13 +45,26 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: Text('Login'),
-                leading: Icon(Icons.login),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => SignIn()));
+                title: Text('Logout'),
+                leading: Icon(Icons.logout),
+                onTap: () async {
+                  await _auth.signOut();
                 },
               ),
+
+              Expanded(
+                child: Container(
+                    child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: Column(
+                          children: <Widget>[
+                            Divider(),
+                            ListTile(
+                                leading: Icon(Icons.logout),
+                                title: Text('Log Out')),
+                          ],
+                        ))),
+              )
               // ListTile(
               //   title: Text('Ntah la nak'),
               //   leading: Icon(Icons.money),
