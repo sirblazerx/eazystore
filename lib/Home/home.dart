@@ -44,13 +44,16 @@ class HomePage extends StatelessWidget {
                   },
                 ),
               ),
+              Divider(),
+
               ListTile(
                 title: Text('Logout'),
-                leading: Icon(Icons.logout),
+                leading: Icon(Icons.logout, color: Colors.red),
                 onTap: () async {
                   await _auth.signOut();
                 },
               ),
+              Divider(),
 
               // Expanded(
               //   child: Container(
