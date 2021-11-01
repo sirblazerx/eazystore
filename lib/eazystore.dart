@@ -12,10 +12,13 @@ class Eazystore extends StatelessWidget {
     return StreamProvider<UserM>.value(
       value: AuthService().user,
       child: MaterialApp(
-        home: SafeArea(child: HomePage()
-            // Wrapper will be used once CRUD and other function is done
-            // Wrapper(),
-            ),
+        home: SafeArea(
+          child:
+
+              //HomePage()
+              // Wrapper will be used once CRUD and other function is done
+              Wrapper(),
+        ),
       ),
     );
   }

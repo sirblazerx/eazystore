@@ -52,19 +52,21 @@ class HomePage extends StatelessWidget {
                 },
               ),
 
-              Expanded(
-                child: Container(
-                    child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Column(
-                          children: <Widget>[
-                            Divider(),
-                            ListTile(
-                                leading: Icon(Icons.logout),
-                                title: Text('Log Out')),
-                          ],
-                        ))),
-              )
+              // Expanded(
+              //   child: Container(
+              //       child: Align(
+              //           alignment: FractionalOffset.bottomCenter,
+              //           child: Column(
+              //             children: <Widget>[
+              //               Divider(),
+              //               ListTile(
+              //                   leading: Icon(Icons.logout),
+              //                   title: Text('Log Out')),
+              //             ],
+              //           )
+              //           )
+              //           ),
+              // )
               // ListTile(
               //   title: Text('Ntah la nak'),
               //   leading: Icon(Icons.money),
