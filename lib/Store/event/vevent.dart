@@ -1,8 +1,6 @@
-import 'package:app/models/UserMod.dart';
-import 'package:app/services/participantsservice.dart';
-import 'package:app/services/userdb.dart';
-import 'package:app/template/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eazystore/Custom/loading.dart';
+import 'package:eazystore/Models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
@@ -10,14 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-
-
 class VEvent extends StatefulWidget {
-
   final String projectid;
 
   VEvent({Key key, @required this.projectid}) : super(key: key);
-
 
   @override
   _VEventState createState() => _VEventState();
@@ -26,17 +20,11 @@ class VEvent extends StatefulWidget {
 class _VEventState extends State<VEvent> {
   InAppWebViewController webView;
 
-  CollectionReference projects = FirebaseFirestore.instance.collection('vprojects');
-
-
-
-
+  CollectionReference projects =
+      FirebaseFirestore.instance.collection('vprojects');
 
   @override
   Widget build(BuildContext context) {
-
-
-
     Future<void> _showMyDialog() async {
       return showDialog<void>(
         context: context,
@@ -65,227 +53,198 @@ class _VEventState extends State<VEvent> {
       );
     }
 
-
     final user = Provider.of<UserM>(context);
     return SafeArea(
       child: Scaffold(
-
         appBar: AppBar(
-
           title: Text('Events'),
           backgroundColor: Colors.pinkAccent,
           elevation: 0.0,
         ),
         body: StreamBuilder<DocumentSnapshot>(
-
             stream: projects.doc(widget.projectid).snapshots(),
-            builder: (BuildContext context,  snapshot) {
-
-
+            builder: (BuildContext context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Loading();
-
               }
 
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
 
-              
-               var meh = snapshot.data['dateproject'];
+              var meh = snapshot.data['dateproject'];
 
-              var now = DateTime.fromMillisecondsSinceEpoch( meh.seconds * 1000);
-
+              var now = DateTime.fromMillisecondsSinceEpoch(meh.seconds * 1000);
 
               String date = DateFormat('dd/MM/yyyy').format(now);
 
-
-              Widget mediaGetter(){
-
-                if(snapshot.data['img'] != null ){
+              Widget mediaGetter() {
+                if (snapshot.data['img'] != null) {
                   return Image.network(snapshot.data['img']);
                 }
-                else if (snapshot.data['uyoutube'] != null){
-                  String vid;
 
-                  // Convert Video to ID
-                  vid = YoutubePlayer.convertUrlToId(snapshot.data['uyoutube']) ;
+                // else if (snapshot.data['uyoutube'] != null){
+                //   String vid;
 
-                  var _controller = YoutubePlayerController(
+                //   // Convert Video to ID
+                //   vid = YoutubePlayer.convertUrlToId(snapshot.data['uyoutube']) ;
 
-                    initialVideoId: vid ,
-                    flags: YoutubePlayerFlags(
-                      autoPlay: false,
-                      mute: false,
-                    ),
-                  );
+                //   var _controller = YoutubePlayerController(
 
-                  return YoutubePlayer(controller: _controller,
-                    showVideoProgressIndicator: true,);
-                }
-                else if (snapshot.data['ufacebook'] != null){
+                //     initialVideoId: vid ,
+                //     flags: YoutubePlayerFlags(
+                //       autoPlay: false,
+                //       mute: false,
+                //     ),
+                //   );
 
+                //   return YoutubePlayer(controller: _controller,
+                //     showVideoProgressIndicator: true,);
+                // }
+                // else if (snapshot.data['ufacebook'] != null){
 
+                //   var url = snapshot.data['ufacebook'];
 
-                  var url = snapshot.data['ufacebook'];
+                //   return Container(
+                //     height: 290,
+                //     child: InAppWebView(
+                //       initialData: url,
+                //       initialOptions: InAppWebViewGroupOptions(
+                //         crossPlatform: InAppWebViewOptions(
+                //             debuggingEnabled: true,
+                //             preferredContentMode: UserPreferredContentMode.MOBILE),
+                //       ),
+                //       onWebViewCreated: (InAppWebViewController controller) {
+                //         webView = controller;
+                //       },
+                //       onLoadStart: (InAppWebViewController controller, String url) {
 
-                  return Container(
-                    height: 290,
-                    child: InAppWebView(
-                      initialUrl: url,
-                      initialOptions: InAppWebViewGroupOptions(
-                        crossPlatform: InAppWebViewOptions(
-                            debuggingEnabled: true,
-                            preferredContentMode: UserPreferredContentMode.MOBILE),
-                      ),
-                      onWebViewCreated: (InAppWebViewController controller) {
-                        webView = controller;
-                      },
-                      onLoadStart: (InAppWebViewController controller, String url) {
+                //       },
+                //       onLoadStop: (InAppWebViewController controller, String url) async {
 
-                      },
-                      onLoadStop: (InAppWebViewController controller, String url) async {
+                //       },
 
-                      },
-
-
-                    ),
-                  );
-                }
-
+                //     ),
+                //   );
+                // }
 
                 else {
                   return Icon(Icons.person);
                 }
-
               }
 
-
               return Scaffold(
-
-
                 body: ListView(
-
-                 children: [
-
-
+                  children: [
                     Card(
                       clipBehavior: Clip.antiAlias,
                       child: Column(
-
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-
-
                           mediaGetter(),
+
                           ListTile(
-
-                            title: Text(snapshot.data['title'],textAlign: TextAlign.center,),
-                            subtitle: Text(snapshot.data['descri'],textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                            title: Text(
+                              snapshot.data['title'],
+                              textAlign: TextAlign.center,
                             ),
-
+                            subtitle: Text(
+                              snapshot.data['descri'],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
                           ),
+
                           ListTile(
-
-                            title: Text(snapshot.data['locationname'],textAlign: TextAlign.center,),
-                            subtitle: Text( date ,textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                            title: Text(
+                              snapshot.data['locationname'],
+                              textAlign: TextAlign.center,
                             ),
-
+                            subtitle: Text(
+                              date,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
                           ),
 
                           Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text( snapshot.data['name']
-                              ,
-                              style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                            child: Text(
+                              snapshot.data['name'],
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
 
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: StreamBuilder(
-                              stream: DatabaseService(uid: user.uid).userData,
-                              builder: (context, snapshot) {
+                          // Padding(
+                          //   padding: const EdgeInsets.all(16.0),
+                          //   child: StreamBuilder(
+                          //     stream: DatabaseService(uid: user.uid).userData,
+                          //     builder: (context, snapshot) {
 
-                                UserData udata = snapshot.data;
+                          //       UserData udata = snapshot.data;
 
-                                return RaisedButton.icon(onPressed:() async {
+                          //       return RaisedButton.icon(onPressed:() async {
 
+                          //         if(udata.tprojectjoin < 3){
 
-                                  if(udata.tprojectjoin < 3){
+                          //         DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+                          //         DocumentSnapshot doc = await docRef.get();
 
-                                  DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
-                                  DocumentSnapshot doc = await docRef.get();
+                          //         String name = doc.data()['name'];
+                          //         String contactnum = doc.data()['contact'];
 
-                                  String name = doc.data()['name'];
-                                  String contactnum = doc.data()['contact'];
+                          //         //Participants
+                          //         var id = Uuid().v4();
+                          //         await ParticipantService(partid: id).updateComments(
+                          //         contactnum,
+                          //         name,
+                          //         widget.projectid,
+                          //         'pending',
+                          //         user.uid
+                          //         );
 
-                                  //Participants
-                                  var id = Uuid().v4();
-                                  await ParticipantService(partid: id).updateComments(
-                                  contactnum,
-                                  name,
-                                  widget.projectid,
-                                  'pending',
-                                  user.uid
-                                  );
+                          //         //User
 
-                                  //User
+                          //           var pjoin =  udata.tprojectjoin;
+                          //           pjoin++;
+                          //         DatabaseService(uid: user.uid).updateProjectJoined(pjoin);
 
-                                    var pjoin =  udata.tprojectjoin;
-                                    pjoin++;
-                                  DatabaseService(uid: user.uid).updateProjectJoined(pjoin);
+                          //         //Project ID
 
+                          //         DocumentReference vRef = FirebaseFirestore.instance.collection('vprojects').doc(widget.projectid);
+                          //         DocumentSnapshot vDoc = await vRef.get();
 
-                                  //Project ID
+                          //         List vol = vDoc.data()['listvon'];
 
-                                  DocumentReference vRef = FirebaseFirestore.instance.collection('vprojects').doc(widget.projectid);
-                                  DocumentSnapshot vDoc = await vRef.get();
+                          //         vRef.update({
 
-                                  List vol = vDoc.data()['listvon'];
+                          //         'listvon' :  FieldValue.arrayUnion([id])
+                          //         });
 
-                                  vRef.update({
+                          //       }else {
 
-                                  'listvon' :  FieldValue.arrayUnion([id])
-                                  });
+                          //           _showMyDialog();
 
+                          //         }
+                          //       }
 
-
-
-
-                                }else {
-
-                                    _showMyDialog();
-
-                                  }
-                                }
-
-
-                                    //User
-                                      ,label: Text('Request To Join')  ,icon:Icon(Icons.person_add) , color: Colors.pinkAccent, );
-                              }
-                            )
-                          ),
-
-
+                          //           //User
+                          //             ,label: Text('Request To Join')  ,icon:Icon(Icons.person_add) , color: Colors.pinkAccent, );
+                          //     }
+                          //   )
+                          // ),
                         ],
                       ),
-
                     ),
-
-                 ],
-
-
+                  ],
                 ),
               );
-              
-              
             }),
       ),
     );
   }
-
 }

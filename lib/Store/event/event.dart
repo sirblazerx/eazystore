@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eazystore/Custom/customlist.dart';
 import 'package:eazystore/Custom/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:app/template/loading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -19,15 +18,12 @@ class _EventState extends State<Event> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Events'),
+          title: Text('Stores'),
           backgroundColor: Colors.pinkAccent,
           elevation: 0.0,
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("vprojects")
-              .orderBy('datecreate', descending: true)
-              .snapshots(),
+          stream: FirebaseFirestore.instance.collection("Store").snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Loading();
@@ -47,55 +43,57 @@ class _EventState extends State<Event> {
                   Widget mediaGetter() {
                     if (projects['img'] != null) {
                       return Image.network(projects['img']);
-                    } else if (projects['uyoutube'] != null) {
-                      String vid;
+                    }
+                    //  else if (projects['uyoutube'] != null) {
+                    //   String vid;
 
-                      // Convert Video to ID
-                      vid = YoutubePlayer.convertUrlToId(projects['uyoutube']);
+                    //   // Convert Video to ID
+                    //   vid = YoutubePlayer.convertUrlToId(projects['uyoutube']);
 
-                      var _controller = YoutubePlayerController(
-                        initialVideoId: vid,
-                        flags: YoutubePlayerFlags(
-                          autoPlay: false,
-                          mute: true,
-                        ),
-                      );
-                      //    log('null');
-                      return YoutubePlayer(
-                        controller: _controller,
-                        showVideoProgressIndicator: true,
-                      );
-                    } else if (projects['ufacebook'] != null) {
-                      InAppWebViewController webView;
-                      var url = projects['ufacebook'];
+                    //   var _controller = YoutubePlayerController(
+                    //     initialVideoId: vid,
+                    //     flags: YoutubePlayerFlags(
+                    //       autoPlay: false,
+                    //       mute: true,
+                    //     ),
+                    //   );
+                    //   //    log('null');
+                    //   return YoutubePlayer(
+                    //     controller: _controller,
+                    //     showVideoProgressIndicator: true,
+                    //   );
+                    // } else if (projects['ufacebook'] != null) {
+                    //   InAppWebViewController webView;
+                    //   var url = projects['ufacebook'];
 
-                      return InAppWebView(
-                        initialUrl: url,
-                        initialOptions: InAppWebViewGroupOptions(
-                          crossPlatform: InAppWebViewOptions(
-                              debuggingEnabled: true,
-                              preferredContentMode:
-                                  UserPreferredContentMode.DESKTOP),
-                        ),
-                        onWebViewCreated: (InAppWebViewController controller) {
-                          webView = controller;
-                        },
-                        onLoadStart:
-                            (InAppWebViewController controller, String url) {},
-                        onLoadStop: (InAppWebViewController controller,
-                            String url) async {},
-                      );
-                    } else {
-                      return Icon(Icons.person);
+                    //   return InAppWebView(
+                    //     initialFile: url,
+                    //     initialOptions: InAppWebViewGroupOptions(
+                    //       crossPlatform: InAppWebViewOptions(
+                    //           // debuggingEnabled: true,
+                    //           preferredContentMode:
+                    //               UserPreferredContentMode.DESKTOP),
+                    //     ),
+                    //     onWebViewCreated: (InAppWebViewController controller) {
+                    //       webView = controller;
+                    //     },
+                    //     onLoadStart:
+                    //         (InAppWebViewController controller, String url) {},
+                    //     onLoadStop: (InAppWebViewController controller,
+                    //         String url) async {},
+                    //   );
+                    // }
+                    else {
+                      return Image.asset('lib/Assets/logo.jpeg');
                     }
                   }
 
                   return Card(
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                VEvent(projectid: projects.id)));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         VEvent(projectid: projects.id)));
                       },
                       child: CustomListTile(
                         // onTap: () {
