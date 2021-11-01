@@ -22,10 +22,6 @@ class HomePage extends StatelessWidget {
           title: Text('Eazystore'),
           centerTitle: true,
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.add),
-        //   onPressed: () {},
-        // ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -34,13 +30,16 @@ class HomePage extends StatelessWidget {
                 decoration: BoxDecoration(color: Colors.blueAccent),
                 child: Text('Side Menu'),
               ),
-              ListTile(
-                title: Text('Stores'),
-                leading: Icon(Icons.store),
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => StorePageList()));
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  title: Text('Stores'),
+                  leading: Icon(Icons.store),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => StorePageList()));
+                  },
+                ),
               ),
               // ListTile(
               //   title: Text('Login'),

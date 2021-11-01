@@ -40,12 +40,12 @@ class _SignInState extends State<SignIn> {
             child: SafeArea(
               child: Scaffold(
                   backgroundColor: Colors.white70,
-                  appBar: AppBar(
-                    backgroundColor: Colors.pinkAccent[400],
-                    elevation: 0.0,
-                    title: Text('Sign In'),
-                    centerTitle: true,
-                  ),
+                  // appBar: AppBar(
+                  //   backgroundColor: Colors.pinkAccent[400],
+                  //   elevation: 0.0,
+                  //   title: Text('Sign In'),
+                  //   centerTitle: true,
+                  // ),
                   body: GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
