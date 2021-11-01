@@ -57,70 +57,75 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        body: Column(
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Top Rated',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Top Rated',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                ),
               ),
-            ),
-            Divider(),
-            StreamBuilder(
-                stream:
-                    FirebaseFirestore.instance.collection('Store').snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.data == null) return Loading();
+              Divider(),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Store')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.data == null) return Loading();
 
-                  return Expanded(
-                    child: Card(
-                      margin: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 3,
-                        // scrollDirection: Axis.horizontal,
-                        // physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot stores = snapshot.data.docs[index];
+                    return Expanded(
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 3,
+                          // scrollDirection: Axis.horizontal,
+                          // physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot stores = snapshot.data.docs[index];
 
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: InkWell(
-                              onTap: () {
-                                // Navigator.of(context).push(MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         VDonation(donationid: donate.id)));
-                              },
-                              child: CustomListTile(
+                            return Card(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              child: InkWell(
                                 onTap: () {
-                                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => VDonation(donationid: donate.id)));
+                                  // Navigator.of(context).push(MaterialPageRoute(
+                                  //     builder: (context) =>
+                                  //         VDonation(donationid: donate.id)));
                                 },
-                                user: stores['Owner'],
-                                description: stores['StoreLocation'],
-                                thumbnail: Container(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.transparent),
-                                  child: Container(
-                                      constraints: BoxConstraints(
-                                          minHeight: 100,
-                                          minWidth: 100,
-                                          maxWidth: 200,
-                                          maxHeight: 160),
-                                      child: Icon(Icons.person)),
+                                child: CustomListTile(
+                                  onTap: () {
+                                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => VDonation(donationid: donate.id)));
+                                  },
+                                  user: stores['Owner'],
+                                  description: stores['StoreLocation'],
+                                  thumbnail: Container(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.transparent),
+                                    child: Container(
+                                        constraints: BoxConstraints(
+                                            minHeight: 100,
+                                            minWidth: 100,
+                                            maxWidth: 200,
+                                            maxHeight: 160),
+                                        child: Icon(Icons.person)),
+                                  ),
+                                  title: stores['StoreName'],
                                 ),
-                                title: stores['StoreName'],
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                }),
-          ],
+                    );
+                  }),
+            ],
+          ),
         ),
       ),
     );
