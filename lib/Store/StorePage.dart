@@ -15,7 +15,11 @@ class StorePageList extends StatelessWidget {
           child: Card(
             child: Column(
               children: [
-                Expanded(child: Image.asset('lib/Assets/download.png')),
+                Expanded(
+                    child: Image.asset(
+                  'lib/Assets/download.png',
+                  fit: BoxFit.fill,
+                )),
               ],
             ),
           ),

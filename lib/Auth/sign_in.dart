@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
                                 child: Column(
                                   children: <Widget>[
                                     SizedBox(height: 20.0),
-                                    Image.asset('lib/img/logo-gwcqp.png'),
+                                    Image.asset('lib/Assets/giflogo.gif'),
                                     SizedBox(height: 20.0),
                                     TextFormField(
                                         decoration: textInputDecoration
