@@ -3,6 +3,7 @@ import 'package:eazystore/Auth/sign_in.dart';
 import 'package:eazystore/Custom/customlist.dart';
 import 'package:eazystore/Custom/loading.dart';
 import 'package:eazystore/Models/User.dart';
+import 'package:eazystore/Services/UserDB.dart';
 import 'package:eazystore/Services/authservice.dart';
 import 'package:eazystore/Store/StorePage.dart';
 import 'package:flutter/material.dart';
@@ -24,59 +25,58 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
         ),
         drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                // decoration: BoxDecoration(color: Colors.white),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text('Side Menu')),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text('Stores'),
-                  leading: Icon(Icons.store),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StorePageList()));
-                  },
-                ),
-              ),
-              Divider(),
+          child: StreamBuilder<UserData>(
+              stream: DatabaseService(uid: user.uid).userData,
+              builder: (context, snapshot) {
+                UserData _data = snapshot.data;
 
-              ListTile(
-                title: Text('Logout'),
-                leading: Icon(Icons.logout, color: Colors.red),
-                onTap: () async {
-                  await _auth.signOut();
-                },
-              ),
-              Divider(),
-
-              // Expanded(
-              //   child: Container(
-              //       child: Align(
-              //           alignment: FractionalOffset.bottomCenter,
-              //           child: Column(
-              //             children: <Widget>[
-              //               Divider(),
-              //               ListTile(
-              //                   leading: Icon(Icons.logout),
-              //                   title: Text('Log Out')),
-              //             ],
-              //           )
-              //           )
-              //           ),
-              // )
-              // ListTile(
-              //   title: Text('Ntah la nak'),
-              //   leading: Icon(Icons.money),
-              //   onTap: () {},
-              // )
-            ],
-          ),
+                if (snapshot.hasData) {
+                  return ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      DrawerHeader(
+                        // decoration: BoxDecoration(color: Colors.white),
+                        child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text('Hello ,' + _data.name)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text('Stores'),
+                          leading: Icon(Icons.store),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => StorePageList()));
+                          },
+                        ),
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text('Profile'),
+                          leading: Icon(Icons.store),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => StorePageList()));
+                          },
+                        ),
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text('Logout'),
+                        leading: Icon(Icons.logout, color: Colors.red),
+                        onTap: () async {
+                          await _auth.signOut();
+                        },
+                      ),
+                      Divider(),
+                    ],
+                  );
+                }
+                return Loading();
+              }),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
