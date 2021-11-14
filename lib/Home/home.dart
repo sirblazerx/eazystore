@@ -5,7 +5,8 @@ import 'package:eazystore/Custom/loading.dart';
 import 'package:eazystore/Models/User.dart';
 import 'package:eazystore/Services/UserDB.dart';
 import 'package:eazystore/Services/authservice.dart';
-import 'package:eazystore/Store/StorePage.dart';
+import 'package:eazystore/Store/event/StorePageList.dart';
+import 'package:eazystore/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,12 +26,15 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
         ),
         drawer: Drawer(
-          child: StreamBuilder<UserData>(
-              stream: DatabaseService(uid: user.uid).userData,
+          child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('Users')
+                  .doc(user.uid)
+                  .snapshots(),
               builder: (context, snapshot) {
-                UserData _data = snapshot.data;
-
                 if (snapshot.hasData) {
+                  DocumentSnapshot _data = snapshot.data;
+
                   return ListView(
                     padding: EdgeInsets.zero,
                     children: [
@@ -38,7 +42,7 @@ class HomePage extends StatelessWidget {
                         // decoration: BoxDecoration(color: Colors.white),
                         child: Align(
                             alignment: Alignment.bottomCenter,
-                            child: Text('Hello ,' + _data.name)),
+                            child: Text('Hello , ' + _data['name'])),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -47,7 +51,7 @@ class HomePage extends StatelessWidget {
                           leading: Icon(Icons.store),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => StorePageList()));
+                                builder: (context) => StorePage()));
                           },
                         ),
                       ),
@@ -59,7 +63,7 @@ class HomePage extends StatelessWidget {
                           leading: Icon(Icons.store),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => StorePageList()));
+                                builder: (context) => Profile()));
                           },
                         ),
                       ),

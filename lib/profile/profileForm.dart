@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
 
 import 'package:eazystore/Custom/loading.dart';
@@ -50,11 +51,16 @@ class _ProfileFormState extends State<ProfileForm> {
           backgroundColor: Colors.pinkAccent,
           elevation: 0.0,
         ),
-        body: StreamBuilder<UserData>(
-          stream: DatabaseService(uid: user.uid).userData,
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Users')
+              .doc(user.uid)
+              .snapshots(),
+          // DatabaseService(uid: user.uid).userData,
+
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              UserData userData = snapshot.data;
+              DocumentSnapshot userData = snapshot.data;
 
               return ListView(
                 children: [
@@ -109,7 +115,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                   style: TextStyle(fontSize: 15.0),
                                 ),
                                 subtitle: TextFormField(
-                                  initialValue: userData.name,
+                                  initialValue: userData['name'],
                                   decoration: textInputDecoration,
                                   validator: (val) =>
                                       val.isEmpty ? 'Enter Your  name' : null,
@@ -130,7 +136,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                   style: TextStyle(fontSize: 15.0),
                                 ),
                                 subtitle: TextFormField(
-                                  initialValue: userData.contact,
+                                  initialValue: userData['contact'],
                                   decoration: textInputDecoration,
                                   validator: (val) => val.isEmpty
                                       ? 'Enter Contact Number'
@@ -155,10 +161,11 @@ class _ProfileFormState extends State<ProfileForm> {
                                   log(_currentprofilepic);
                                   await DatabaseService(uid: user.uid)
                                       .updateUserData(
-                                    _currentname ?? userData.name,
-                                    userData.acctype,
-                                    _currentcontact ?? userData.contact,
-                                    _currentprofilepic ?? userData.profilepic,
+                                    _currentname ?? userData['name'],
+                                    userData['acctype'],
+                                    _currentcontact ?? userData['contact'],
+                                    _currentprofilepic ??
+                                        userData['profilepic'],
                                     user.uid,
                                   );
 

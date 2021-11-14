@@ -8,16 +8,16 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class VEvent extends StatefulWidget {
+class VStorePage extends StatefulWidget {
   final String projectid;
 
-  VEvent({Key key, @required this.projectid}) : super(key: key);
+  VStorePage({Key key, @required this.projectid}) : super(key: key);
 
   @override
-  _VEventState createState() => _VEventState();
+  _VStorePageState createState() => _VStorePageState();
 }
 
-class _VEventState extends State<VEvent> {
+class _VStorePageState extends State<VStorePage> {
   InAppWebViewController webView;
 
   CollectionReference projects =

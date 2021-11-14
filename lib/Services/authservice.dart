@@ -56,7 +56,7 @@ class AuthService {
       // Create a new document for user with generated uid
 
       await DatabaseService(uid: user.uid)
-          .updateUserData('New User', 'Client', '', '', user.uid);
+          .updateUserData('New User', 'Client', null, null, user.uid);
 
       return _userModel(user);
     } catch (e) {

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class Event extends StatefulWidget {
+class StorePage extends StatefulWidget {
   @override
-  _EventState createState() => _EventState();
+  _StorePageState createState() => _StorePageState();
 }
 
-class _EventState extends State<Event> {
+class _StorePageState extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
     // CollectionReference projects = FirebaseFirestore.instance.collection('vprojects');//.orderBy('datecreate',descending: true);
