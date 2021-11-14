@@ -32,15 +32,15 @@ class ManageStore extends StatelessWidget {
             shrinkWrap: true,
             padding: const EdgeInsets.all(8.0),
             itemExtent: 106.0,
-            itemCount: snapshot?.data?.documents?.length ?? 0,
+            itemCount: snapshot?.data?.docs?.length ?? 0,
             itemBuilder: (context, index) {
-              DocumentSnapshot _data = snapshot.data.documents[index];
+              DocumentSnapshot _data = snapshot.data.docs[index];
 
               // Declaration of FB,YT vids
 
               Widget mediaGetter() {
-                if (_data['img'] != null) {
-                  return Image.network(_data['img']);
+                if (_data['Img'] != null) {
+                  return Image.network(_data['Img']);
                 }
                 // else if (_data['uyoutube'] != null){
                 //   String vid;
@@ -106,17 +106,17 @@ class ManageStore extends StatelessWidget {
                   child: CustomListTile(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => EditStore(
-                              storyid: snapshot.data.documents[index])));
+                          builder: (context) =>
+                              EditStore(storyid: snapshot.data.docs[index])));
                     },
-                    user: _data['name'],
-                    description: _data['descri'],
+                    user: _data['Owner'],
+                    description: _data['StoreLocation'],
                     thumbnail: Container(
                       decoration:
                           const BoxDecoration(color: Colors.transparent),
                       child: mediaGetter(),
                     ),
-                    title: _data['title'],
+                    title: _data['StoreName'],
                   ),
                 ),
               );

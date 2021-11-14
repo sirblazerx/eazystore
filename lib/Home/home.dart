@@ -6,6 +6,7 @@ import 'package:eazystore/Models/User.dart';
 import 'package:eazystore/Services/UserDB.dart';
 import 'package:eazystore/Services/authservice.dart';
 import 'package:eazystore/Store/event/StorePageList.dart';
+import 'package:eazystore/Store/event/manageStore.dart';
 import 'package:eazystore/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
                           leading: Icon(Icons.store),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => StorePage()));
+                                builder: (context) => ManageStore()));
                           },
                         ),
                       ),

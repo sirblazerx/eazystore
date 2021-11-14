@@ -41,8 +41,8 @@ class _VStoryEditState extends State<VStoryEdit> {
               }
 
               Widget mediaGetter() {
-                if (snapshot.data['img'] != null) {
-                  return Image.network(snapshot.data['img']);
+                if (snapshot.data['Img'] != null) {
+                  return Image.network(snapshot.data['Img']);
                 }
                 // else if (snapshot.data['uyoutube'] != null){
                 //   String vid;
@@ -178,9 +178,9 @@ class _VStoryEditState extends State<VStoryEdit> {
                           // ),
 
                           ListTile(
-                            title: Text(snapshot.data['title']),
+                            title: Text(snapshot.data['StoreName']),
                             subtitle: Text(
-                              snapshot.data['descri'],
+                              snapshot.data['StoreLocation'],
                               style: TextStyle(
                                   color: Colors.black.withOpacity(0.6)),
                             ),
@@ -189,7 +189,7 @@ class _VStoryEditState extends State<VStoryEdit> {
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
-                              snapshot.data['name'],
+                              snapshot.data['Owner'],
                               style: TextStyle(
                                   color: Colors.black.withOpacity(0.6)),
                             ),
@@ -201,9 +201,7 @@ class _VStoryEditState extends State<VStoryEdit> {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => (EditStore(
                                           storyid: widget.storyid,
-                                          img: snapshot.data['img'],
-                                          vid: snapshot.data['uyoutube'],
-                                          fb: snapshot.data['ufacebook'],
+                                          img: snapshot.data['Img'],
                                         ))));
                               })
                         ],

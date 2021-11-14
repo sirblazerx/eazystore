@@ -152,7 +152,7 @@ class _AddStoryState extends State<AddStory> {
                         Text('Please fill in the credentials'),
                         SizedBox(height: 20.0),
 
-                        Text(_curtitle == null ? "X dak title" : _curtitle),
+                        // Text(_curtitle == null ? "X dak title" : _curtitle),
 
                         Padding(
                           padding: const EdgeInsets.symmetric(
