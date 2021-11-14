@@ -20,11 +20,12 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class EditStore extends StatefulWidget {
   final String storyid;
   final String img;
-  final String vid;
-  final String fb;
 
-  const EditStore({Key key, this.storyid, this.img, this.vid, this.fb})
-      : super(key: key);
+  const EditStore({
+    Key key,
+    this.storyid,
+    this.img,
+  }) : super(key: key);
 
   @override
   _EditStoreState createState() => _EditStoreState();
@@ -179,7 +180,7 @@ class _EditStoreState extends State<EditStore> {
                               ),
                               Text('Please fill in the credentials'),
                               SizedBox(height: 20.0),
-                              Text(_curtitle == null ? "MEEEEP" : _curtitle),
+
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0, vertical: 8.0),
