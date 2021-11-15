@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
@@ -22,22 +21,11 @@ class ProfileForm extends StatefulWidget {
 class _ProfileFormState extends State<ProfileForm> {
   // profiles values
 
-  String _currentacctype;
-  String _currentaddress;
   String _currentname;
   String _currentcontact;
-  String _currentcountry;
   String _currentprofilepic;
-  int _currentpoint;
-  int _currentTVol;
-  int _currentTDon;
-  int _currentnnotification;
-  String _currentfbpage;
-  String _currentweb;
   String imgUrl;
-  String _sex;
   String _userid;
-  int _tprojectjoin;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -56,6 +44,7 @@ class _ProfileFormState extends State<ProfileForm> {
               .collection('Users')
               .doc(user.uid)
               .snapshots(),
+
           // DatabaseService(uid: user.uid).userData,
 
           builder: (context, snapshot) {
@@ -158,7 +147,8 @@ class _ProfileFormState extends State<ProfileForm> {
                               ),
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  log(_currentprofilepic);
+                                  // log(_currentprofilepic);
+
                                   await DatabaseService(uid: user.uid)
                                       .updateUserData(
                                     _currentname ?? userData['name'],
