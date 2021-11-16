@@ -4,6 +4,7 @@ import 'package:eazystore/Custom/loading.dart';
 import 'package:eazystore/Models/Store.dart';
 import 'package:eazystore/Models/User.dart';
 import 'package:eazystore/Services/StoreService.dart';
+import 'package:eazystore/Services/UserDB.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,12 +20,10 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class EditStore extends StatefulWidget {
   final String storyid;
-  final String img;
 
   const EditStore({
     Key key,
     this.storyid,
-    this.img,
   }) : super(key: key);
 
   @override
@@ -33,8 +32,6 @@ class EditStore extends StatefulWidget {
 
 class _EditStoreState extends State<EditStore> {
   CollectionReference story = FirebaseFirestore.instance.collection('Store');
-
-  InAppWebViewController webView;
 
   final _fkey = GlobalKey<FormState>();
 
@@ -46,25 +43,18 @@ class _EditStoreState extends State<EditStore> {
   String _name;
   String _curdate;
   String _curimg;
-  String _fb;
-  String _yt;
-  List _tlike;
-  int _totlike;
-  int _tcomment;
-  String _curcountry;
-  String _url;
 
   @override
-  void initState() {
-    _stream = FirebaseFirestore.instance
-        .collection('Store')
-        .doc(widget.storyid)
-        .snapshots();
+  // void initState() {
+  //   _stream = FirebaseFirestore.instance
+  //       .collection('Store')
+  //       .doc(widget.storyid)
+  //       .snapshots();
 
-    // StoreService(sid: widget.storyid).storyData;
+  //   // StoreService(sid: widget.storyid).storyData;
 
-    super.initState();
-  }
+  //   super.initState();
+  // }
 
   final number = TextEditingController();
 
@@ -90,217 +80,223 @@ class _EditStoreState extends State<EditStore> {
                 Form(
                     key: _fkey,
                     child: StreamBuilder(
-                        stream: _stream,
+                        stream: FirebaseFirestore.instance
+                            .collection('Store')
+                            .doc(widget.storyid)
+                            .snapshots(),
+
+                        // _stream,
+
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Loading();
                           }
 
-                          if (snapshot.hasData) {
-                            DocumentSnapshot don = snapshot.data;
+                          DocumentSnapshot don = snapshot.data;
 
-                            return Column(
-                              children: [
-                                SizedBox(height: 20.0),
-                                (widget.img != null)
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                            constraints:
-                                                BoxConstraints(maxHeight: 290),
-                                            child: Image.network(widget.img)),
-                                      )
-                                    : Placeholder(
+                          _curimg = don['Img'];
+                          log(_curimg);
+
+                          return Column(
+                            children: [
+                              SizedBox(height: 20.0),
+                              (don['Img'] != '')
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          constraints:
+                                              BoxConstraints(maxHeight: 290),
+                                          child: Image.network(don['Img'])),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Placeholder(
                                         fallbackHeight: 200.0,
                                         fallbackWidth: double.infinity,
                                       ),
+                                    ),
 
-                                // Padding(
-                                //   padding: const EdgeInsets.symmetric(
-                                //       horizontal: 16.0, vertical: 8.0),
-                                //   child: TextFormField(
-                                //     initialValue: null,
-                                //     onChanged: (val) =>
-                                //         setState(() => _url = val),
-                                //     style: style,
-                                //     decoration: InputDecoration(
-                                //         labelText: "Video URL",
-                                //         filled: true,
-                                //         fillColor: Colors.white,
-                                //         border: OutlineInputBorder(
-                                //             borderRadius:
-                                //                 BorderRadius.circular(10))),
-                                //   ),
-                                // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(
+                              //       horizontal: 16.0, vertical: 8.0),
+                              //   child: TextFormField(
+                              //     initialValue: null,
+                              //     onChanged: (val) =>
+                              //         setState(() => _url = val),
+                              //     style: style,
+                              //     decoration: InputDecoration(
+                              //         labelText: "Video URL",
+                              //         filled: true,
+                              //         fillColor: Colors.white,
+                              //         border: OutlineInputBorder(
+                              //             borderRadius:
+                              //                 BorderRadius.circular(10))),
+                              //   ),
+                              // ),
 
-                                SizedBox(height: 20.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    // Spacer(flex: 1),
-                                    // RaisedButton.icon(
-                                    //     icon: Icon(Icons.book),
-                                    //     label: Text('Facebook'),
-                                    //     onPressed: () {
-                                    //       _fb = _url;
-                                    //       _yt = null;
-                                    //       _curimg = null;
+                              SizedBox(height: 20.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  // Spacer(flex: 1),
+                                  // RaisedButton.icon(
+                                  //     icon: Icon(Icons.book),
+                                  //     label: Text('Facebook'),
+                                  //     onPressed: () {
+                                  //       _fb = _url;
+                                  //       _yt = null;
+                                  //       _curimg = null;
 
-                                    //       log(_fb + 'FB');
-                                    //     }),
-                                    // Spacer(
-                                    //   flex: 1,
-                                    // ),
-                                    // RaisedButton.icon(
-                                    //     icon: Icon(Icons.play_arrow),
-                                    //     label: Text('Youtube'),
-                                    //     onPressed: () {
-                                    //       _yt = _url;
-                                    //       _fb = null;
-                                    //       _curimg = null;
+                                  //       log(_fb + 'FB');
+                                  //     }),
+                                  // Spacer(
+                                  //   flex: 1,
+                                  // ),
+                                  // RaisedButton.icon(
+                                  //     icon: Icon(Icons.play_arrow),
+                                  //     label: Text('Youtube'),
+                                  //     onPressed: () {
+                                  //       _yt = _url;
+                                  //       _fb = null;
+                                  //       _curimg = null;
 
-                                    //       log(_yt + 'YT');
-                                    //     }),
-                                    // Spacer(
-                                    //   flex: 1,
-                                    // ),
+                                  //       log(_yt + 'YT');
+                                  //     }),
+                                  // Spacer(
+                                  //   flex: 1,
+                                  // ),
 
-                                    RaisedButton.icon(
-                                        icon: Icon(Icons.person_add),
-                                        label: Text('Image'),
-                                        onPressed: () {
-                                          print('Bfore upload ' +
-                                              _curimg.toString());
-                                          uploadImage();
-                                          print('After upload ' +
-                                              _curimg.toString());
-                                          _yt = null;
-                                          _fb = null;
-                                        }),
-                                    // Spacer(
-                                    //   flex: 1,
-                                    // ),
-                                  ],
+                                  RaisedButton.icon(
+                                      icon: Icon(Icons.person_add),
+                                      label: Text('Image'),
+                                      onPressed: () {
+                                        print('Bfore upload ' +
+                                            _curimg.toString());
+
+                                        uploadImage();
+
+                                        print('After upload ' +
+                                            _curimg.toString());
+                                      }),
+                                  // Spacer(
+                                  //   flex: 1,
+                                  // ),
+                                ],
+                              ),
+                              Text('Please fill in the credentials'),
+                              SizedBox(height: 20.0),
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 8.0),
+                                child: TextFormField(
+                                  initialValue: don['StoreName'],
+                                  validator: (val) =>
+                                      val.isEmpty ? 'Enter title' : null,
+                                  onChanged: (val) =>
+                                      setState(() => _curtitle = val),
+                                  style: style,
+                                  decoration: InputDecoration(
+                                      labelText: "Title",
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
                                 ),
-                                Text('Please fill in the credentials'),
-                                SizedBox(height: 20.0),
-
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 8.0),
-                                  child: TextFormField(
-                                    initialValue: don['StoreName'],
-                                    validator: (val) =>
-                                        val.isEmpty ? 'Enter title' : null,
-                                    onChanged: (val) =>
-                                        setState(() => _curtitle = val),
-                                    style: style,
-                                    decoration: InputDecoration(
-                                        labelText: "Title",
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                  ),
+                              ),
+                              SizedBox(height: 20.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 8.0),
+                                child: TextFormField(
+                                  initialValue: don['StoreLocation'],
+                                  minLines: 3,
+                                  maxLines: 5,
+                                  validator: (val) => val.isEmpty
+                                      ? 'Enter Store Location'
+                                      : null,
+                                  onChanged: (val) =>
+                                      setState(() => _curdescri = val),
+                                  style: style,
+                                  decoration: InputDecoration(
+                                      labelText: "Location",
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
                                 ),
-                                SizedBox(height: 20.0),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 8.0),
-                                  child: TextFormField(
-                                    initialValue: don['StoreLocation'],
-                                    minLines: 3,
-                                    maxLines: 5,
-                                    validator: (val) => val.isEmpty
-                                        ? 'Enter Store Location'
-                                        : null,
-                                    onChanged: (val) =>
-                                        setState(() => _curdescri = val),
-                                    style: style,
-                                    decoration: InputDecoration(
-                                        labelText: "Location",
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                  ),
-                                ),
-                                SizedBox(height: 20.0),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    StreamBuilder(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('Users')
-                                            .doc(user.uid)
-                                            .snapshots(),
+                              ),
+                              SizedBox(height: 20.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  StreamBuilder(
+                                      stream:
 
-                                        // DatabaseService(uid: user.uid)
-                                        //     .userData,
+                                          // FirebaseFirestore.instance
+                                          //     .collection('Users')
+                                          //     .doc(user.uid)
+                                          //     .snapshots(),
 
-                                        builder: (context, snapshot) {
-                                          DocumentSnapshot userData =
-                                              snapshot.data;
+                                          DatabaseService(uid: user.uid)
+                                              .userData,
+                                      builder: (context, snapshot) {
+                                        UserData userData = snapshot.data;
 
-                                          return RaisedButton.icon(
-                                            onPressed: () async {
-                                              // if (_yt != null) {
-                                              //   String vid;
+                                        return RaisedButton.icon(
+                                          onPressed: () async {
+                                            // if (_yt != null) {
+                                            //   String vid;
 
-                                              //   // Convert Video to ID
-                                              //   vid = YoutubePlayer
-                                              //       .convertUrlToId(_yt);
+                                            //   // Convert Video to ID
+                                            //   vid = YoutubePlayer
+                                            //       .convertUrlToId(_yt);
 
-                                              //   _yt =
-                                              //       'https://www.youtube.com/embed/' +
-                                              //           vid;
-                                              // }
+                                            //   _yt =
+                                            //       'https://www.youtube.com/embed/' +
+                                            //           vid;
+                                            // }
 
-                                              if (_fkey.currentState
-                                                  .validate()) {
-                                                await StoreService(
-                                                        sid: widget.storyid)
-                                                    .updateStoreData(
-                                                        Owner:
-                                                            userData['Owner'],
-                                                        StoreLocation: _curdescri ??
-                                                            don[
-                                                                'StoreLocation'],
-                                                        StoreName: _curtitle ??
-                                                            don['StoreName'],
-                                                        Uid: user.uid,
-                                                        Img: _curimg ??
-                                                            don['Img'],
-                                                        StoreId:
-                                                            widget.storyid);
+                                            if (_fkey.currentState.validate()) {
+                                              await StoreService(
+                                                      sid: widget.storyid)
+                                                  .updateStoreData(
+                                                      Owner: userData.name,
+                                                      StoreLocation: _curdescri ??
+                                                          don['StoreLocation'],
+                                                      StoreName: _curtitle ??
+                                                          don['StoreName'],
+                                                      Uid: user.uid,
+                                                      Img:
+                                                          _curimg ?? don['Img'],
+                                                      StoreId: widget.storyid);
 
-                                                Navigator.pop(context);
-                                              }
-                                            },
-                                            icon: Icon(Icons.save_alt),
-                                            label: Text('Save'),
-                                            color: Colors.lightGreenAccent,
-                                          );
-                                        }),
-                                    IconButton(
-                                        icon: Icon(Icons.delete),
-                                        color: Colors.red,
-                                        onPressed: () {
-                                          StoreService(sid: widget.storyid)
-                                              .deleteStory();
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                          icon: Icon(Icons.save_alt),
+                                          label: Text('Save'),
+                                          color: Colors.lightGreenAccent,
+                                        );
+                                      }),
+                                  IconButton(
+                                      icon: Icon(Icons.delete),
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        StoreService(sid: widget.storyid)
+                                            .deleteStory();
 
-                                          Navigator.pop(context);
-                                        }),
-                                  ],
-                                ),
-                              ],
-                            );
-                          }
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                              ),
+                            ],
+                          );
                         }))
               ],
             ),
@@ -310,11 +306,11 @@ class _EditStoreState extends State<EditStore> {
     );
   }
 
-  DateGetter() {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy/MM/dd ').format(now);
-    return formattedDate;
-  }
+  // DateGetter() {
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('yyyy/MM/dd ').format(now);
+  //   return formattedDate;
+  // }
 
   uploadImage() async {
     final _picker = ImagePicker();
@@ -341,14 +337,10 @@ class _EditStoreState extends State<EditStore> {
         var snapshot = await _storage.ref().child(name).putFile(file);
 
         var downloadUrl = await snapshot.ref.getDownloadURL();
-
-        //   log(downloadUrl);
-
-        // Setstate
+        //  log(downloadUrl);
 
         setState(() {
           _curimg = downloadUrl;
-          log(_curimg);
         });
       } else {
         print('No Path Received');

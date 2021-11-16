@@ -18,22 +18,30 @@ class _ProfileListState extends State<ProfileList> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white60,
-        body: StreamBuilder(
-            stream:
-                //  DatabaseService(uid: user.uid).userData,
-                FirebaseFirestore.instance
-                    .collection('Users')
-                    .doc(user.uid)
-                    .snapshots(),
+        body: StreamBuilder<UserData>(
+            stream: DatabaseService(uid: user.uid).userData,
+
+            // FirebaseFirestore.instance
+            //     .collection('Users')
+            //     .doc(user.uid)
+            //     .snapshots(),
+
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                DocumentSnapshot _data = snapshot.data;
+                // DocumentSnapshot _data = snapshot.data;
 
-                // UserData _data = snapshot.data;
+                UserData _data = snapshot.data;
+
+                // Widget mediaGetter() {
+                //   if (_data['profilepic'] != null) {
+                //     return Image.network(_data['profilepic']);
+                //   } else
+                //     return Container();
+                // }
 
                 Widget mediaGetter() {
-                  if (_data['profilepic'] != null) {
-                    return Image.network(_data['profilepic']);
+                  if (_data.profilepic != null) {
+                    return Image.network(_data.profilepic);
                   } else
                     return Container();
                 }
@@ -50,8 +58,11 @@ class _ProfileListState extends State<ProfileList> {
                               'Name :',
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            title: Text(_data['name'],
-                                style: TextStyle(fontSize: 15.0)),
+                            title:
+                                // Text(_data['name'],
+
+                                Text(_data.name,
+                                    style: TextStyle(fontSize: 15.0)),
                           ),
                         ),
                         Card(
@@ -60,8 +71,11 @@ class _ProfileListState extends State<ProfileList> {
                               'Phone Number :',
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            title: Text(_data['contact'],
-                                style: TextStyle(fontSize: 15.0)),
+                            title:
+                                // Text(_data['contact'],
+
+                                Text(_data.contact,
+                                    style: TextStyle(fontSize: 15.0)),
                           ),
                         ),
                         Card(
@@ -70,8 +84,12 @@ class _ProfileListState extends State<ProfileList> {
                               'AccType :',
                               style: TextStyle(fontSize: 15.0),
                             ),
-                            title: Text(_data['acctype'],
-                                style: TextStyle(fontSize: 15.0)),
+                            title:
+
+                                // Text(_data['acctype'],
+
+                                Text(_data.acctype,
+                                    style: TextStyle(fontSize: 15.0)),
                           ),
                         ),
                       ],

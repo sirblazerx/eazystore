@@ -34,13 +34,23 @@ class DatabaseService {
 
   // UserData from snapshot
 
-  UserData _profile(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  // UserData _profile(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  //   return UserData(
+  //     uid: uid,
+  //     acctype: snapshot.data()['acctype'],
+  //     name: snapshot.data()['name'],
+  //     contact: snapshot.data()['contact'],
+  //     profilepic: snapshot.data()['profilepic'],
+  //   );
+  // }
+
+  UserData _profile(DocumentSnapshot snapshot) {
     return UserData(
       uid: uid,
-      acctype: snapshot.data()['acctype'],
-      name: snapshot.data()['name'],
-      contact: snapshot.data()['contact'],
-      profilepic: snapshot.data()['profilepic'],
+      acctype: snapshot['acctype'],
+      name: snapshot['name'],
+      contact: snapshot['contact'],
+      profilepic: snapshot['profilepic'],
     );
   }
 

@@ -39,7 +39,7 @@ class ManageStore extends StatelessWidget {
               // Declaration of FB,YT vids
 
               Widget mediaGetter() {
-                if (_data['Img'] != null) {
+                if (_data['Img'] != '') {
                   return Image.network(_data['Img']);
                 }
                 // else if (_data['uyoutube'] != null){
@@ -87,7 +87,10 @@ class ManageStore extends StatelessWidget {
                 // }
 
                 else {
-                  return Icon(Icons.person);
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Placeholder(),
+                  );
                 }
               }
               // Get Video URL

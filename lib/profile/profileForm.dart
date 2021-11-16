@@ -74,9 +74,12 @@ class _ProfileFormState extends State<ProfileForm> {
                           //  (userData.profilepic != null)  ? Image.network(userData.profilepic) : Placeholder(fallbackHeight:   200.0,fallbackWidth: double.infinity,),
                           (_currentprofilepic != null)
                               ? Image.network(_currentprofilepic)
-                              : Placeholder(
-                                  fallbackHeight: 200.0,
-                                  fallbackWidth: double.infinity,
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Placeholder(
+                                    fallbackHeight: 200.0,
+                                    fallbackWidth: double.infinity,
+                                  ),
                                 ),
 
                           SizedBox(

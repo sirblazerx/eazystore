@@ -69,7 +69,7 @@ class _AddStoryState extends State<AddStory> {
                     child: Column(
                       children: [
                         SizedBox(height: 20.0),
-                        (_curimg != null)
+                        (_curimg != '')
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -138,9 +138,6 @@ class _AddStoryState extends State<AddStory> {
                                 icon: Icon(Icons.person_add),
                                 label: Text('Image'),
                                 onPressed: () {
-                                  _yt = null;
-                                  _fb = null;
-
                                   uploadImage();
                                 }),
                             Spacer(
@@ -229,7 +226,7 @@ class _AddStoryState extends State<AddStory> {
                                         Uid: user.uid,
                                         StoreLocation: _curdescri,
                                         StoreName: _curtitle,
-                                        Img: _curimg,
+                                        Img: _curimg ?? '',
                                         Owner: userData['name'],
                                       );
 
