@@ -96,7 +96,6 @@ class _VStorePageState extends State<VStorePage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           mediaGetter(),
-
                           ListTile(
                             title: Text(
                               snapshot.data['title'],
@@ -109,7 +108,6 @@ class _VStorePageState extends State<VStorePage> {
                                   color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
-
                           ListTile(
                             title: Text(
                               snapshot.data['locationname'],
@@ -122,7 +120,6 @@ class _VStorePageState extends State<VStorePage> {
                                   color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
@@ -131,65 +128,6 @@ class _VStorePageState extends State<VStorePage> {
                                   color: Colors.black.withOpacity(0.6)),
                             ),
                           ),
-
-                          // Padding(
-                          //   padding: const EdgeInsets.all(16.0),
-                          //   child: StreamBuilder(
-                          //     stream: DatabaseService(uid: user.uid).userData,
-                          //     builder: (context, snapshot) {
-
-                          //       UserData udata = snapshot.data;
-
-                          //       return RaisedButton.icon(onPressed:() async {
-
-                          //         if(udata.tprojectjoin < 3){
-
-                          //         DocumentReference docRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
-                          //         DocumentSnapshot doc = await docRef.get();
-
-                          //         String name = doc.data()['name'];
-                          //         String contactnum = doc.data()['contact'];
-
-                          //         //Participants
-                          //         var id = Uuid().v4();
-                          //         await ParticipantService(partid: id).updateComments(
-                          //         contactnum,
-                          //         name,
-                          //         widget.projectid,
-                          //         'pending',
-                          //         user.uid
-                          //         );
-
-                          //         //User
-
-                          //           var pjoin =  udata.tprojectjoin;
-                          //           pjoin++;
-                          //         DatabaseService(uid: user.uid).updateProjectJoined(pjoin);
-
-                          //         //Project ID
-
-                          //         DocumentReference vRef = FirebaseFirestore.instance.collection('vprojects').doc(widget.projectid);
-                          //         DocumentSnapshot vDoc = await vRef.get();
-
-                          //         List vol = vDoc.data()['listvon'];
-
-                          //         vRef.update({
-
-                          //         'listvon' :  FieldValue.arrayUnion([id])
-                          //         });
-
-                          //       }else {
-
-                          //           _showMyDialog();
-
-                          //         }
-                          //       }
-
-                          //           //User
-                          //             ,label: Text('Request To Join')  ,icon:Icon(Icons.person_add) , color: Colors.pinkAccent, );
-                          //     }
-                          //   )
-                          // ),
                         ],
                       ),
                     ),

@@ -17,20 +17,28 @@ class VStoryEdit extends StatefulWidget {
 class _VStoryEditState extends State<VStoryEdit> {
   @override
   Widget build(BuildContext context) {
+
     final user = Provider.of<UserM>(context);
+
     return SafeArea(
+
       child: Scaffold(
+
         appBar: AppBar(
+
           title: Text('Story'),
+
           backgroundColor: Colors.pinkAccent,
           elevation: 0.0,
         ),
+
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('Store')
                 .doc(widget.storyid)
                 .snapshots(),
             builder: (BuildContext context, snapshot) {
+              
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
@@ -41,51 +49,7 @@ class _VStoryEditState extends State<VStoryEdit> {
                 if (_data['Img'] != '') {
                   return Image.network(_data['Img']);
                 }
-                // else if (snapshot.data['uyoutube'] != null){
-                //   String vid;
-
-                //   // Convert Video to ID
-                //   vid = YoutubePlayer.convertUrlToId(snapshot.data['uyoutube']) ;
-
-                //   var _controller = YoutubePlayerController(
-
-                //     initialVideoId: vid ,
-                //     flags: YoutubePlayerFlags(
-                //       autoPlay: false,
-                //       mute: false,
-                //     ),
-                //   );
-
-                //   return YoutubePlayer(controller: _controller,
-                //     showVideoProgressIndicator: true,);
-                // }
-                // else if (snapshot.data['ufacebook'] != null){
-
-                //   var url = snapshot.data['ufacebook'];
-
-                //   return Container(
-                //     height: 290,
-                //     child: InAppWebView(
-                //       initialUrl: url,
-                //       initialOptions: InAppWebViewGroupOptions(
-                //         crossPlatform: InAppWebViewOptions(
-                //             debuggingEnabled: true,
-                //             preferredContentMode: UserPreferredContentMode.MOBILE),
-                //       ),
-                //       onWebViewCreated: (InAppWebViewController controller) {
-                //         webView = controller;
-                //       },
-                //       onLoadStart: (InAppWebViewController controller, String url) {
-
-                //       },
-                //       onLoadStop: (InAppWebViewController controller, String url) async {
-
-                //       },
-
-                //     ),
-                //   );
-
-                // }
+              
 
                 else {
                   return Container();

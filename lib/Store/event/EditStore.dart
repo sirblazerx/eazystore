@@ -28,8 +28,6 @@ class _EditStoreState extends State<EditStore> {
     this.meh = _tempimg;
   }
 
-  CollectionReference story = FirebaseFirestore.instance.collection('Store');
-
   final _fkey = GlobalKey<FormState>();
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -44,12 +42,7 @@ class _EditStoreState extends State<EditStore> {
 
   @override
   void initState() {
-    _stream = StoreService(sid: widget.storyid).storyData;
-
-    // FirebaseFirestore.instance
-    //     .collection('Store')
-    //     .doc(widget.storyid)
-    //     .snapshots();
+    _stream = StoreService(sid: widget.storyid).storeData;
 
     super.initState();
   }
@@ -80,15 +73,16 @@ class _EditStoreState extends State<EditStore> {
                     child: StreamBuilder(
                         stream: _stream,
                         builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Loading();
                           }
 
                           Store don = snapshot.data;
-
-                          // _curimg = don['Img'];
-                          // log(_curimg);
 
                           return Column(
                             children: [
@@ -176,15 +170,8 @@ class _EditStoreState extends State<EditStore> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   StreamBuilder(
-                                      stream:
-
-                                          // FirebaseFirestore.instance
-                                          //     .collection('Users')
-                                          //     .doc(user.uid)
-                                          //     .snapshots(),
-
-                                          DatabaseService(uid: user.uid)
-                                              .userData,
+                                      stream: DatabaseService(uid: user.uid)
+                                          .userData,
                                       builder: (context, snapshot) {
                                         UserData userData = snapshot.data;
 

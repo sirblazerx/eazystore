@@ -15,7 +15,7 @@ class StoreService {
 
 // Update/Create Data to Collection
 
-  // User Data
+  // Store Update/Create Data
 
   Future updateStoreData(
       {String StoreName,
@@ -34,11 +34,13 @@ class StoreService {
     });
   }
 
+  // Deleted Store from Firestore based on store id
+
   Future deleteStore() async {
     return await story.doc(sid).delete();
   }
 
-  // UserData from snapshot
+  // Store data  from snapshot being mappep
 
   Store _store(DocumentSnapshot snapshot) {
     return Store(
@@ -53,8 +55,9 @@ class StoreService {
 
   //Stream
 
-  // get user data stream
-  Stream<Store> get storyData {
+  // get Store data stream and Mapped to Store Model
+
+  Stream<Store> get storeData {
     return story.doc(sid).snapshots().map(_store);
   }
 }
