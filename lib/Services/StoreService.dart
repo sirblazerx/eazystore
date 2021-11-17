@@ -34,20 +34,20 @@ class StoreService {
     });
   }
 
-  Future deleteStory() async {
+  Future deleteStore() async {
     return await story.doc(sid).delete();
   }
 
   // UserData from snapshot
 
-  Store _story(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  Store _store(DocumentSnapshot snapshot) {
     return Store(
       StoreId: sid,
-      Uid: snapshot.data()['Uid'],
-      StoreLocation: snapshot.data()['StoreLocation'],
-      Img: snapshot.data()['Img'],
-      StoreName: snapshot.data()['StoreName'],
-      Owner: snapshot.data()['Owner'],
+      Uid: snapshot['Uid'],
+      StoreLocation: snapshot['StoreLocation'],
+      Img: snapshot['Img'],
+      StoreName: snapshot['StoreName'],
+      Owner: snapshot['Owner'],
     );
   }
 
@@ -55,6 +55,6 @@ class StoreService {
 
   // get user data stream
   Stream<Store> get storyData {
-    return story.doc(sid).snapshots().map(_story);
+    return story.doc(sid).snapshots().map(_store);
   }
 }

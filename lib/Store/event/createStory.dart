@@ -83,54 +83,12 @@ class _AddStoryState extends State<AddStory> {
                                   fallbackWidth: double.infinity,
                                 ),
                               ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(
-                        //       horizontal: 16.0, vertical: 8.0),
-                        //   child: TextFormField(
-                        //     initialValue: null,
-                        //     onChanged: (val) => setState(() => _url = val),
-                        //     style: style,
-                        //     decoration: InputDecoration(
-                        //         labelText: "Video URL",
-                        //         filled: true,
-                        //         fillColor: Colors.white,
-                        //         border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(10))),
-                        //   ),
-                        // ),
                         SizedBox(height: 20.0),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Spacer(flex: 1),
-
-                            // RaisedButton.icon(
-                            //     icon: Icon(Icons.book),
-                            //     label: Text('Facebook'),
-                            //     onPressed: () {
-                            //       _fb = _url;
-                            //       _yt = null;
-                            //       _curimg = null;
-
-                            //       //  log(_fb + 'FB');
-                            //     }),
-
-                            // Spacer(
-                            //   flex: 1,
-                            // ),
-                            // RaisedButton.icon(
-                            //     icon: Icon(Icons.play_arrow),
-                            //     label: Text('Youtube'),
-                            //     onPressed: () {
-                            //       _yt = _url;
-                            //       _fb = null;
-                            //       _curimg = null;
-
-                            //       //    log( _yt+'YT');
-                            //     }),
-
                             Spacer(
                               flex: 1,
                             ),
@@ -145,12 +103,8 @@ class _AddStoryState extends State<AddStory> {
                             ),
                           ],
                         ),
-
                         Text('Please fill in the credentials'),
                         SizedBox(height: 20.0),
-
-                        // Text(_curtitle == null ? "X dak title" : _curtitle),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -190,7 +144,6 @@ class _AddStoryState extends State<AddStory> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-
                         StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection('Users')
@@ -205,19 +158,6 @@ class _AddStoryState extends State<AddStory> {
                               return RaisedButton.icon(
                                   onPressed: () async {
                                     var nsid = Uuid().v4();
-
-                                    // if (_yt != null) {
-                                    //   String vid;
-
-                                    //   // Convert Video to ID
-                                    //   vid = YoutubePlayer.convertUrlToId(_yt);
-
-                                    //   _yt = 'https://www.youtube.com/embed/' +
-                                    //       vid;
-                                    // }
-
-                                    // print('This is cur _yt ' +
-                                    //     _curimg.toString());
 
                                     if (_fkey.currentState.validate()) {
                                       await StoreService(sid: nsid)

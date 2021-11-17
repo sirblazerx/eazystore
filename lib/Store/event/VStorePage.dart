@@ -81,54 +81,7 @@ class _VStorePageState extends State<VStorePage> {
               Widget mediaGetter() {
                 if (snapshot.data['img'] != null) {
                   return Image.network(snapshot.data['img']);
-                }
-
-                // else if (snapshot.data['uyoutube'] != null){
-                //   String vid;
-
-                //   // Convert Video to ID
-                //   vid = YoutubePlayer.convertUrlToId(snapshot.data['uyoutube']) ;
-
-                //   var _controller = YoutubePlayerController(
-
-                //     initialVideoId: vid ,
-                //     flags: YoutubePlayerFlags(
-                //       autoPlay: false,
-                //       mute: false,
-                //     ),
-                //   );
-
-                //   return YoutubePlayer(controller: _controller,
-                //     showVideoProgressIndicator: true,);
-                // }
-                // else if (snapshot.data['ufacebook'] != null){
-
-                //   var url = snapshot.data['ufacebook'];
-
-                //   return Container(
-                //     height: 290,
-                //     child: InAppWebView(
-                //       initialData: url,
-                //       initialOptions: InAppWebViewGroupOptions(
-                //         crossPlatform: InAppWebViewOptions(
-                //             debuggingEnabled: true,
-                //             preferredContentMode: UserPreferredContentMode.MOBILE),
-                //       ),
-                //       onWebViewCreated: (InAppWebViewController controller) {
-                //         webView = controller;
-                //       },
-                //       onLoadStart: (InAppWebViewController controller, String url) {
-
-                //       },
-                //       onLoadStop: (InAppWebViewController controller, String url) async {
-
-                //       },
-
-                //     ),
-                //   );
-                // }
-
-                else {
+                } else {
                   return Icon(Icons.person);
                 }
               }

@@ -41,52 +41,7 @@ class ManageStore extends StatelessWidget {
               Widget mediaGetter() {
                 if (_data['Img'] != '') {
                   return Image.network(_data['Img']);
-                }
-                // else if (_data['uyoutube'] != null){
-                //   String vid;
-
-                //   // Convert Video to ID
-                //   vid = YoutubePlayer.convertUrlToId(_data['uyoutube']) ;
-
-                //   var _controller = YoutubePlayerController(
-
-                //     initialVideoId: vid ,
-                //     flags: YoutubePlayerFlags(
-                //       autoPlay: false,
-                //       mute: true,
-                //     ),
-                //   );
-
-                //   return YoutubePlayer(controller: _controller,
-                //     showVideoProgressIndicator: true,);
-                // }
-                // else if (_data['ufacebook'] != null){
-
-                //   InAppWebViewController webView;
-                //   var url = _data['ufacebook'];
-
-                //   return InAppWebView(
-
-                //     initialUrlRequest: url,
-                //     initialOptions: InAppWebViewGroupOptions(
-                //       crossPlatform: InAppWebViewOptions(
-                //           preferredContentMode: UserPreferredContentMode.DESKTOP),
-                //     ),
-                //     onWebViewCreated: (InAppWebViewController controller) {
-                //       webView = controller;
-                //     },
-                //     onLoadStart: (InAppWebViewController controller, String url) {
-
-                //     },
-                //     onLoadStop: (InAppWebViewController controller, String url) async {
-
-                //     },
-
-                //   );
-
-                // }
-
-                else {
+                } else {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Placeholder(),

@@ -43,47 +43,7 @@ class _StorePageState extends State<StorePage> {
                   Widget mediaGetter() {
                     if (projects['img'] != null) {
                       return Image.network(projects['img']);
-                    }
-                    //  else if (projects['uyoutube'] != null) {
-                    //   String vid;
-
-                    //   // Convert Video to ID
-                    //   vid = YoutubePlayer.convertUrlToId(projects['uyoutube']);
-
-                    //   var _controller = YoutubePlayerController(
-                    //     initialVideoId: vid,
-                    //     flags: YoutubePlayerFlags(
-                    //       autoPlay: false,
-                    //       mute: true,
-                    //     ),
-                    //   );
-                    //   //    log('null');
-                    //   return YoutubePlayer(
-                    //     controller: _controller,
-                    //     showVideoProgressIndicator: true,
-                    //   );
-                    // } else if (projects['ufacebook'] != null) {
-                    //   InAppWebViewController webView;
-                    //   var url = projects['ufacebook'];
-
-                    //   return InAppWebView(
-                    //     initialFile: url,
-                    //     initialOptions: InAppWebViewGroupOptions(
-                    //       crossPlatform: InAppWebViewOptions(
-                    //           // debuggingEnabled: true,
-                    //           preferredContentMode:
-                    //               UserPreferredContentMode.DESKTOP),
-                    //     ),
-                    //     onWebViewCreated: (InAppWebViewController controller) {
-                    //       webView = controller;
-                    //     },
-                    //     onLoadStart:
-                    //         (InAppWebViewController controller, String url) {},
-                    //     onLoadStop: (InAppWebViewController controller,
-                    //         String url) async {},
-                    //   );
-                    // }
-                    else {
+                    } else {
                       return Image.asset('lib/Assets/logo.jpeg');
                     }
                   }

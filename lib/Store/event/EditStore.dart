@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:eazystore/Custom/loading.dart';
 import 'package:eazystore/Models/Store.dart';
@@ -10,27 +9,25 @@ import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class EditStore extends StatefulWidget {
   final String storyid;
+  final String img;
 
-  const EditStore({
-    Key key,
-    this.storyid,
-  }) : super(key: key);
+  const EditStore({Key key, this.storyid, this.img}) : super(key: key);
 
   @override
-  _EditStoreState createState() => _EditStoreState();
+  _EditStoreState createState() => _EditStoreState(this.img);
 }
 
 class _EditStoreState extends State<EditStore> {
+  _EditStoreState(String _tempimg) {
+    this.meh = _tempimg;
+  }
+
   CollectionReference story = FirebaseFirestore.instance.collection('Store');
 
   final _fkey = GlobalKey<FormState>();
@@ -43,18 +40,19 @@ class _EditStoreState extends State<EditStore> {
   String _name;
   String _curdate;
   String _curimg;
+  String meh;
 
   @override
-  // void initState() {
-  //   _stream = FirebaseFirestore.instance
-  //       .collection('Store')
-  //       .doc(widget.storyid)
-  //       .snapshots();
+  void initState() {
+    _stream = StoreService(sid: widget.storyid).storyData;
 
-  //   // StoreService(sid: widget.storyid).storyData;
+    // FirebaseFirestore.instance
+    //     .collection('Store')
+    //     .doc(widget.storyid)
+    //     .snapshots();
 
-  //   super.initState();
-  // }
+    super.initState();
+  }
 
   final number = TextEditingController();
 
@@ -69,7 +67,7 @@ class _EditStoreState extends State<EditStore> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Edit  Story'),
+            title: const Text('Edit  Story'),
             centerTitle: true,
             backgroundColor: Colors.pinkAccent,
           ),
@@ -80,34 +78,28 @@ class _EditStoreState extends State<EditStore> {
                 Form(
                     key: _fkey,
                     child: StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('Store')
-                            .doc(widget.storyid)
-                            .snapshots(),
-
-                        // _stream,
-
+                        stream: _stream,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Loading();
                           }
 
-                          DocumentSnapshot don = snapshot.data;
+                          Store don = snapshot.data;
 
-                          _curimg = don['Img'];
-                          log(_curimg);
+                          // _curimg = don['Img'];
+                          // log(_curimg);
 
                           return Column(
                             children: [
                               SizedBox(height: 20.0),
-                              (don['Img'] != '')
+                              (meh != null)
                                   ? Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                           constraints:
                                               BoxConstraints(maxHeight: 290),
-                                          child: Image.network(don['Img'])),
+                                          child: Image.network(meh)),
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -116,58 +108,11 @@ class _EditStoreState extends State<EditStore> {
                                         fallbackWidth: double.infinity,
                                       ),
                                     ),
-
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(
-                              //       horizontal: 16.0, vertical: 8.0),
-                              //   child: TextFormField(
-                              //     initialValue: null,
-                              //     onChanged: (val) =>
-                              //         setState(() => _url = val),
-                              //     style: style,
-                              //     decoration: InputDecoration(
-                              //         labelText: "Video URL",
-                              //         filled: true,
-                              //         fillColor: Colors.white,
-                              //         border: OutlineInputBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(10))),
-                              //   ),
-                              // ),
-
                               SizedBox(height: 20.0),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  // Spacer(flex: 1),
-                                  // RaisedButton.icon(
-                                  //     icon: Icon(Icons.book),
-                                  //     label: Text('Facebook'),
-                                  //     onPressed: () {
-                                  //       _fb = _url;
-                                  //       _yt = null;
-                                  //       _curimg = null;
-
-                                  //       log(_fb + 'FB');
-                                  //     }),
-                                  // Spacer(
-                                  //   flex: 1,
-                                  // ),
-                                  // RaisedButton.icon(
-                                  //     icon: Icon(Icons.play_arrow),
-                                  //     label: Text('Youtube'),
-                                  //     onPressed: () {
-                                  //       _yt = _url;
-                                  //       _fb = null;
-                                  //       _curimg = null;
-
-                                  //       log(_yt + 'YT');
-                                  //     }),
-                                  // Spacer(
-                                  //   flex: 1,
-                                  // ),
-
                                   RaisedButton.icon(
                                       icon: Icon(Icons.person_add),
                                       label: Text('Image'),
@@ -180,19 +125,15 @@ class _EditStoreState extends State<EditStore> {
                                         print('After upload ' +
                                             _curimg.toString());
                                       }),
-                                  // Spacer(
-                                  //   flex: 1,
-                                  // ),
                                 ],
                               ),
                               Text('Please fill in the credentials'),
                               SizedBox(height: 20.0),
-
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0, vertical: 8.0),
                                 child: TextFormField(
-                                  initialValue: don['StoreName'],
+                                  initialValue: don.StoreName ?? Text('null'),
                                   validator: (val) =>
                                       val.isEmpty ? 'Enter title' : null,
                                   onChanged: (val) =>
@@ -212,9 +153,8 @@ class _EditStoreState extends State<EditStore> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0, vertical: 8.0),
                                 child: TextFormField(
-                                  initialValue: don['StoreLocation'],
-                                  minLines: 3,
-                                  maxLines: 5,
+                                  initialValue:
+                                      don.StoreLocation ?? Text('null'),
                                   validator: (val) => val.isEmpty
                                       ? 'Enter Store Location'
                                       : null,
@@ -250,30 +190,18 @@ class _EditStoreState extends State<EditStore> {
 
                                         return RaisedButton.icon(
                                           onPressed: () async {
-                                            // if (_yt != null) {
-                                            //   String vid;
-
-                                            //   // Convert Video to ID
-                                            //   vid = YoutubePlayer
-                                            //       .convertUrlToId(_yt);
-
-                                            //   _yt =
-                                            //       'https://www.youtube.com/embed/' +
-                                            //           vid;
-                                            // }
-
                                             if (_fkey.currentState.validate()) {
                                               await StoreService(
                                                       sid: widget.storyid)
                                                   .updateStoreData(
                                                       Owner: userData.name,
-                                                      StoreLocation: _curdescri ??
-                                                          don['StoreLocation'],
+                                                      StoreLocation:
+                                                          _curdescri ??
+                                                              don.StoreLocation,
                                                       StoreName: _curtitle ??
-                                                          don['StoreName'],
+                                                          don.StoreName,
                                                       Uid: user.uid,
-                                                      Img:
-                                                          _curimg ?? don['Img'],
+                                                      Img: _curimg ?? don.Img,
                                                       StoreId: widget.storyid);
 
                                               Navigator.pop(context);
@@ -289,7 +217,7 @@ class _EditStoreState extends State<EditStore> {
                                       color: Colors.red,
                                       onPressed: () {
                                         StoreService(sid: widget.storyid)
-                                            .deleteStory();
+                                            .deleteStore();
 
                                         Navigator.pop(context);
                                       }),
@@ -340,6 +268,7 @@ class _EditStoreState extends State<EditStore> {
         //  log(downloadUrl);
 
         setState(() {
+          meh = downloadUrl;
           _curimg = downloadUrl;
         });
       } else {
