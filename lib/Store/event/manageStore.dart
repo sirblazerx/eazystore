@@ -3,7 +3,7 @@ import 'package:eazystore/Custom/customlist.dart';
 import 'package:eazystore/Models/User.dart';
 import 'package:eazystore/Store/event/EditStore.dart';
 import 'package:eazystore/Store/event/VStoryEdit.dart';
-import 'package:eazystore/Store/event/createStory.dart';
+import 'package:eazystore/Store/event/cerateStore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
