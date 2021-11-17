@@ -42,7 +42,10 @@ class _EditStoreState extends State<EditStore> {
 
   @override
   void initState() {
-    _stream = StoreService(sid: widget.storyid).storeData;
+    _stream = FirebaseFirestore.instance
+        .collection('Store')
+        .doc(widget.storyid)
+        .snapshots();
 
     super.initState();
   }
@@ -82,7 +85,9 @@ class _EditStoreState extends State<EditStore> {
                             return Loading();
                           }
 
-                          Store don = snapshot.data;
+                          //  Store don = snapshot.data;
+
+                          DocumentSnapshot don = snapshot.data;
 
                           return Column(
                             children: [
@@ -127,7 +132,8 @@ class _EditStoreState extends State<EditStore> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0, vertical: 8.0),
                                 child: TextFormField(
-                                  initialValue: don.StoreName ?? Text('null'),
+                                  initialValue:
+                                      don['StoreName'] ?? Text('null'),
                                   validator: (val) =>
                                       val.isEmpty ? 'Enter title' : null,
                                   onChanged: (val) =>
@@ -148,7 +154,7 @@ class _EditStoreState extends State<EditStore> {
                                     horizontal: 16.0, vertical: 8.0),
                                 child: TextFormField(
                                   initialValue:
-                                      don.StoreLocation ?? Text('null'),
+                                      don['StoreLocation'] ?? Text('null'),
                                   validator: (val) => val.isEmpty
                                       ? 'Enter Store Location'
                                       : null,
@@ -182,13 +188,13 @@ class _EditStoreState extends State<EditStore> {
                                                       sid: widget.storyid)
                                                   .updateStoreData(
                                                       Owner: userData.name,
-                                                      StoreLocation:
-                                                          _curdescri ??
-                                                              don.StoreLocation,
+                                                      StoreLocation: _curdescri ??
+                                                          don['StoreLocation'],
                                                       StoreName: _curtitle ??
-                                                          don.StoreName,
+                                                          don['StoreName'],
                                                       Uid: user.uid,
-                                                      Img: _curimg ?? don.Img,
+                                                      Img:
+                                                          _curimg ?? don['Img'],
                                                       StoreId: widget.storyid);
 
                                               Navigator.pop(context);
