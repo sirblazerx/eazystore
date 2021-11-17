@@ -136,6 +136,7 @@ class _AddMenuState extends State<AddMenu> {
                           ),
                         ),
                         SizedBox(height: 20.0),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -154,6 +155,7 @@ class _AddMenuState extends State<AddMenu> {
                           ),
                         ),
                         SizedBox(height: 20.0),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -162,12 +164,53 @@ class _AddMenuState extends State<AddMenu> {
                             minLines: 3,
                             maxLines: 5,
                             validator: (val) =>
-                                val.isEmpty ? 'Enter Store Location' : null,
-                            onChanged: (val) =>
-                                setState(() => _curdescri = val),
+                                val.isEmpty ? 'Enter Menu Image' : null,
+                            onChanged: (val) => setState(() => _curimg = val),
                             style: style,
                             decoration: InputDecoration(
-                                labelText: "Location",
+                                labelText: "Menu Image",
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: TextFormField(
+                            initialValue: null,
+                            minLines: 3,
+                            maxLines: 5,
+                            validator: (val) =>
+                                val.isEmpty ? 'Enter Menu Price' : null,
+                            onChanged: (val) => setState(() => _price = val),
+                            style: style,
+                            decoration: InputDecoration(
+                                labelText: "Menu Price",
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: TextFormField(
+                            initialValue: null,
+                            minLines: 3,
+                            maxLines: 5,
+                            validator: (val) =>
+                                val.isEmpty ? 'Enter Menu Category' : null,
+                            onChanged: (val) => setState(() => _category = val),
+                            style: style,
+                            decoration: InputDecoration(
+                                labelText: "Menu Category",
                                 filled: true,
                                 fillColor: Colors.white,
                                 border: OutlineInputBorder(
