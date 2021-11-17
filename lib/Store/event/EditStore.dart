@@ -63,7 +63,7 @@ class _EditStoreState extends State<EditStore> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Edit  Story'),
+            title: const Text('Edit  Store'),
             centerTitle: true,
             backgroundColor: Colors.pinkAccent,
           ),

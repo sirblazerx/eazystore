@@ -16,7 +16,7 @@ class ManageStore extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Story Screen'),
+        title: Text('My Stores Screen'),
         backgroundColor: Colors.pinkAccent,
         elevation: 0.0,
       ),
