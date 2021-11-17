@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:eazystore/Custom/loading.dart';
 import 'package:eazystore/Models/User.dart';
 import 'package:eazystore/Services/Menu_Service.dart';
 import 'package:eazystore/Services/StoreService.dart';
@@ -76,23 +77,7 @@ class _AddMenuState extends State<AddMenu> {
                                   fallbackWidth: double.infinity,
                                 ),
                               ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(
-                        //       horizontal: 16.0, vertical: 8.0),
-                        //   child: TextFormField(
-                        //     initialValue: null,
-                        //     onChanged: (val) => setState(() => _url = val),
-                        //     style: style,
-                        //     decoration: InputDecoration(
-                        //         labelText: "Video URL",
-                        //         filled: true,
-                        //         fillColor: Colors.white,
-                        //         border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(10))),
-                        //   ),
-                        // ),
                         SizedBox(height: 20.0),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,12 +97,8 @@ class _AddMenuState extends State<AddMenu> {
                             ),
                           ],
                         ),
-
                         Text('Please fill in the credentials'),
                         SizedBox(height: 20.0),
-
-                        // Text(_curtitle == null ? "X dak title" : _curtitle),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -136,7 +117,6 @@ class _AddMenuState extends State<AddMenu> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -155,28 +135,6 @@ class _AddMenuState extends State<AddMenu> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
-                          child: TextFormField(
-                            initialValue: null,
-                            minLines: 3,
-                            maxLines: 5,
-                            validator: (val) =>
-                                val.isEmpty ? 'Enter Menu Image' : null,
-                            onChanged: (val) => setState(() => _curimg = val),
-                            style: style,
-                            decoration: InputDecoration(
-                                labelText: "Menu Image",
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -186,7 +144,8 @@ class _AddMenuState extends State<AddMenu> {
                             maxLines: 5,
                             validator: (val) =>
                                 val.isEmpty ? 'Enter Menu Price' : null,
-                            onChanged: (val) => setState(() => _price = val),
+                            onChanged: (val) =>
+                                setState(() => _price = val as double),
                             style: style,
                             decoration: InputDecoration(
                                 labelText: "Menu Price",
@@ -197,7 +156,6 @@ class _AddMenuState extends State<AddMenu> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -218,7 +176,6 @@ class _AddMenuState extends State<AddMenu> {
                           ),
                         ),
                         SizedBox(height: 20.0),
-
                         StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection('Users')
@@ -230,40 +187,44 @@ class _AddMenuState extends State<AddMenu> {
                             builder: (context, snapshot) {
                               DocumentSnapshot userData = snapshot.data;
 
-                              return RaisedButton.icon(
-                                  onPressed: () async {
-                                    var nsid = Uuid().v4();
-
-                                    // if (_yt != null) {
-                                    //   String vid;
-
-                                    //   // Convert Video to ID
-                                    //   vid = YoutubePlayer.convertUrlToId(_yt);
-
-                                    //   _yt = 'https://www.youtube.com/embed/' +
-                                    //       vid;
-                                    // }
-
-                                    // print('This is cur _yt ' +
-                                    //     _curimg.toString());
-
-                                    if (_fkey.currentState.validate()) {
-                                      await MenuService(mid: nsid)
-                                          .updateMenuData({
-                                        Name: _curname,
-                                        MenuId: nsid,
-                                        Price: _price,
-                                        Desc: _desc,
-                                        Img: _curimg,
-                                        Category: _category,
-                                        StoreId: _storeid
-                                      });
-
-                                      Navigator.pop(context);
+                              return StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('Store')
+                                      .where('Uid', isEqualTo: user.uid)
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text('Something went wrong');
                                     }
-                                  },
-                                  icon: Icon(Icons.save_alt),
-                                  label: Text('Save'));
+
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Loading();
+                                    }
+
+                                    DocumentSnapshot stid = snapshot.data;
+
+                                    return RaisedButton.icon(
+                                        onPressed: () async {
+                                          var nsid = Uuid().v4();
+
+                                          if (_fkey.currentState.validate()) {
+                                            await MenuService(mid: nsid)
+                                                .updateMenuData(
+                                                    _curname,
+                                                    nsid,
+                                                    _price,
+                                                    _desc,
+                                                    _curimg,
+                                                    _category,
+                                                    stid['StoreId']);
+
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        icon: Icon(Icons.save_alt),
+                                        label: Text('Save'));
+                                  });
                             })
                       ],
                     ))
@@ -321,53 +282,4 @@ class _AddMenuState extends State<AddMenu> {
       print('Please enable permission for photos and try again');
     }
   }
-
-  // Widget mediapicker() {
-  //   if (_curimg != null) {
-  //   } else if (_yt != null) {
-  //     String vid;
-
-  //     // Convert Video to ID
-  //     vid = YoutubePlayer.convertUrlToId(_yt);
-
-  //     var _controller = YoutubePlayerController(
-  //       initialVideoId: (vid == null) ? vid = 'Null' : vid,
-  //       flags: YoutubePlayerFlags(
-  //         autoPlay: false,
-  //         mute: false,
-  //       ),
-  //     );
-
-  //     return YoutubePlayer(
-  //       controller: _controller,
-  //       showVideoProgressIndicator: true,
-  //     );
-  //   } else if (_fb != null) {
-
-  //     var url = _fb;
-
-  //     return Container(
-  //       height: 290,
-  //       child: InAppWebView(
-  //         initialFile: url,
-  //         initialOptions: InAppWebViewGroupOptions(
-  //           crossPlatform: InAppWebViewOptions(
-  //               preferredContentMode: UserPreferredContentMode.MOBILE),
-  //         ),
-  //         onWebViewCreated: (InAppWebViewController controller) {
-  //           webView = controller;
-  //         },
-  //         onLoadStart: (InAppWebViewController controller, String url) {},
-  //         onLoadStop: (InAppWebViewController controller, String url) async {},
-
-  //       ),
-
-  //     );
-  //   } else {
-  //     return Placeholder(
-  //       fallbackHeight: 200.0,
-  //       fallbackWidth: double.infinity,
-  //     );
-  //   }
-  // }
 }
