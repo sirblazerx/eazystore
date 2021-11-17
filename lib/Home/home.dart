@@ -98,9 +98,8 @@ class HomePage extends StatelessWidget {
               ),
               Divider(),
               StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('Store')
-                      .snapshots(),
+                  stream:
+                      FirebaseFirestore.instance.collection('Menu').snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.data == null) return Loading();
 
@@ -128,8 +127,8 @@ class HomePage extends StatelessWidget {
                                   onTap: () {
                                     // Navigator.of(context).push(MaterialPageRoute(builder: (context) => VDonation(donationid: donate.id)));
                                   },
-                                  user: stores['Owner'],
-                                  description: stores['StoreLocation'],
+                                  user: stores['Price'],
+                                  description: stores['Name'],
                                   thumbnail: Container(
                                     decoration: const BoxDecoration(
                                         color: Colors.transparent),
@@ -139,7 +138,7 @@ class HomePage extends StatelessWidget {
                                             minWidth: 100,
                                             maxWidth: 200,
                                             maxHeight: 160),
-                                        child: Icon(Icons.person)),
+                                        child: Icon(Icons.camera)),
                                   ),
                                   title: stores['StoreName'],
                                 ),
